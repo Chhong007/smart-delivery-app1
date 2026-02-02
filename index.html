@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Delivery Enterprise - Cloud System</title>
+    <title>Smart Delivery Enterprise - AI Cloud System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,8 +12,8 @@
         .custom-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
         .scan-animation { position: relative; overflow: hidden; }
         .scan-line { 
-            position: absolute; width: 100%; height: 4px; background: #3b82f6; 
-            box-shadow: 0 0 15px #3b82f6; top: 0; left: 0; 
+            position: absolute; width: 100%; height: 5px; background: #3b82f6; 
+            box-shadow: 0 0 20px #3b82f6; top: 0; left: 0; 
             animation: moveScan 2s infinite linear; z-index: 20; 
         }
         @keyframes moveScan { 0% { top: 0; } 100% { top: 100%; } }
@@ -32,7 +32,7 @@
                     <p class="text-[9px] font-bold text-blue-500 uppercase tracking-widest mt-1">Enterprise Solution</p>
                 </div>
             </div>
-            <div id="syncStatus" class="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-100">
+            <div class="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-100">
                 <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                 <span class="text-[10px] font-black text-green-600 uppercase">Cloud Active</span>
             </div>
@@ -41,55 +41,48 @@
 
     <main class="max-w-6xl mx-auto px-4 mt-8 space-y-8">
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between h-40 relative overflow-hidden">
-                <div class="relative z-10">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">អីវ៉ាន់សរុប</p>
-                    <h3 id="totalCount" class="text-5xl font-black text-slate-900 mt-2">0</h3>
-                </div>
-                <i data-lucide="layers" class="absolute -right-4 -top-4 w-32 h-32 text-slate-50"></i>
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between h-40">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">អីវ៉ាន់សរុប</p>
+                <h3 id="totalCount" class="text-5xl font-black text-slate-900 mt-2">0</h3>
             </div>
-            <div class="bg-blue-600 p-6 rounded-[2rem] shadow-xl text-white flex flex-col justify-between h-40 relative overflow-hidden">
-                <div>
-                    <p class="text-[10px] font-black opacity-70 uppercase tracking-widest">ផ្ញើចេញថ្ងៃនេះ</p>
-                    <h3 id="todayCount" class="text-5xl font-black mt-2 text-white">0</h3>
-                </div>
-                <i data-lucide="trending-up" class="absolute -right-4 -top-4 w-32 h-32 opacity-10"></i>
+            <div class="bg-blue-600 p-6 rounded-[2rem] shadow-xl text-white flex flex-col justify-between h-40">
+                <p class="text-[10px] font-black opacity-70 uppercase tracking-widest">ស្កេនថ្ងៃនេះ</p>
+                <h3 id="todayCount" class="text-5xl font-black mt-2 text-white">0</h3>
             </div>
         </section>
 
         <section class="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2">
-            <div class="p-8 md:p-12 bg-slate-50/50 border-r border-slate-100 flex flex-col items-center justify-center text-center">
+            <div class="p-8 md:p-12 bg-slate-50/50 border-r border-slate-100 flex flex-col items-center justify-center">
                 <div id="previewContainer" class="hidden w-full max-w-sm relative">
-                    <div class="scan-animation rounded-[2rem] border-4 border-white shadow-2xl overflow-hidden aspect-[4/3]">
+                    <div class="scan-animation rounded-[2.5rem] border-4 border-white shadow-2xl overflow-hidden aspect-[4/3]">
                         <img id="previewImg" class="w-full h-full object-cover">
                         <div id="scanLine" class="scan-line hidden"></div>
                     </div>
                     <button onclick="clearImage()" class="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full shadow-lg">&times;</button>
                 </div>
                 
-                <div id="uploadPrompt" class="space-y-6">
+                <div id="uploadPrompt" class="text-center space-y-4">
                     <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto">
                         <i data-lucide="camera" class="w-10 h-10"></i>
                     </div>
-                    <button onclick="document.getElementById('cameraInput').click()" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm shadow-lg">ថតរូបស្កេន</button>
+                    <button onclick="document.getElementById('cameraInput').click()" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-sm shadow-lg active:scale-95 transition-all">ថតរូបវិក្កយបត្រ</button>
                     <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden" onchange="handleImage(event)">
                 </div>
             </div>
 
             <div class="p-8 md:p-12 flex flex-col justify-center space-y-6">
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-4 mb-2">លេខកូដអីវ៉ាន់</label>
-                    <input type="text" id="trackingInput" placeholder="--- ---" class="w-full bg-slate-50 border-none rounded-[2rem] py-8 px-6 text-4xl font-black text-center text-indigo-900 focus:ring-4 focus:ring-blue-100 outline-none">
-                    <p id="aiStatus" class="hidden text-center text-blue-500 font-bold text-[10px] uppercase mt-3 animate-pulse">✨ AI កំពុងស្កេន...</p>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-4 mb-2">លេខកូដអីវ៉ាន់ (AI Auto-Scan)</label>
+                    <input type="text" id="trackingInput" placeholder="--- ---" class="w-full bg-slate-50 border-none rounded-[2rem] py-8 px-6 text-4xl font-black text-center text-indigo-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all">
+                    <p id="aiStatus" class="hidden text-center text-blue-500 font-bold text-[10px] uppercase mt-3 animate-pulse">✨ AI កំពុងអានលេខកូដ...</p>
                 </div>
-                <button onclick="saveToFirebase()" id="saveBtn" class="w-full bg-blue-600 text-white py-6 rounded-[2rem] font-black text-xl shadow-xl active:scale-95 transition-all">រក្សាទុកក្នុង CLOUD</button>
+                <button id="saveBtn" onclick="saveToFirebase()" class="w-full bg-blue-600 text-white py-6 rounded-[2rem] font-black text-xl shadow-xl active:scale-95 transition-all">រក្សាទុកក្នុង CLOUD</button>
             </div>
         </section>
 
         <section class="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-            <div class="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+            <div class="p-8 bg-slate-50/50 border-b border-slate-100">
                 <h3 class="font-black italic uppercase">ប្រតិបត្តិការថ្មីៗ</h3>
-                <button onclick="exportCSV()" class="p-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100"><i data-lucide="download"></i></button>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
@@ -111,32 +104,80 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
         import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
+        // --- កូដ API Key របស់បង ---
+        const GEMINI_API_KEY = "AIzaSyAWHBz5WFxOgcGjEc3ffZAIFfJ9e4pyeME";
+
         const firebaseConfig = {
             apiKey: "AIzaSyCA8cKGFYNB8M4z-yxeqL3Nl796IeZqMiU",
             authDomain: "smart-delivery-system-1fc02.firebaseapp.com",
             projectId: "smart-delivery-system-1fc02",
+            databaseURL: "https://smart-delivery-system-1fc02-default-rtdb.asia-southeast1.firebasedatabase.app",
             storageBucket: "smart-delivery-system-1fc02.firebasestorage.app",
-            messagingSenderId: "750092212909",
-            appId: "1:750092212909:web:0d2e2cbedaf0ce5a6b4424",
-            databaseURL: "https://smart-delivery-system-1fc02-default-rtdb.asia-southeast1.firebasedatabase.app"
+            appId: "1:750092212909:web:0d2e2cbedaf0ce5a6b4424"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         lucide.createIcons();
 
-        // --- Functions ---
         window.handleImage = (e) => {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = (event) => {
-                document.getElementById('previewImg').src = event.target.result;
+            reader.onload = async (event) => {
+                const base64 = event.target.result;
+                document.getElementById('previewImg').src = base64;
                 document.getElementById('previewContainer').classList.remove('hidden');
                 document.getElementById('uploadPrompt').classList.add('hidden');
-                // ប្រសិនបើមាន Gemini API Key អ្នកអាចដាក់មុខងារ extractTracking នៅទីនេះ
+                
+                // ហៅ AI ឱ្យជួយ Scan
+                extractWithAI(base64);
             };
             reader.readAsDataURL(file);
+        };
+
+        async function extractWithAI(base64) {
+            const status = document.getElementById('aiStatus');
+            const line = document.getElementById('scanLine');
+            status.classList.remove('hidden');
+            line.classList.remove('hidden');
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: "Find and extract only the tracking ID or phone number from this label. Result should be digits only." },
+                                { inlineData: { mimeType: "image/jpeg", data: base64.split(',')[1] } }
+                            ]
+                        }]
+                    })
+                });
+                const data = await res.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (text) {
+                    const match = text.trim().match(/\d+/);
+                    if (match) document.getElementById('trackingInput').value = match[0];
+                }
+            } catch (err) { console.error("AI Error:", err); }
+            finally { status.classList.add('hidden'); line.classList.add('hidden'); }
+        }
+
+        window.saveToFirebase = () => {
+            const trackId = document.getElementById('trackingInput').value;
+            const img = document.getElementById('previewImg').src;
+            if(!trackId) return alert("សូមបញ្ចូលលេខកូដ!");
+            
+            push(ref(db, 'packages'), {
+                tracking_id: trackId,
+                image: img,
+                date: new Date().toLocaleString('km-KH'),
+                timestamp: Date.now()
+            }).then(() => {
+                clearImage();
+            });
         };
 
         window.clearImage = () => {
@@ -145,42 +186,26 @@
             document.getElementById('trackingInput').value = "";
         };
 
-        window.saveToFirebase = () => {
-            const trackId = document.getElementById('trackingInput').value;
-            const img = document.getElementById('previewImg').src;
-            if(!trackId) return alert("សូមបញ្ចូលលេខកូដ!");
-
-            push(ref(db, 'packages'), {
-                tracking_id: trackId,
-                image: img.includes('base64') ? img : null,
-                date: new Date().toLocaleDateString('km-KH'),
-                timestamp: Date.now()
-            }).then(() => {
-                clearImage();
-            });
-        };
-
         window.deleteItem = (id) => {
-            if(confirm("លុបទិន្នន័យនេះមែនទេ?")) remove(ref(db, `packages/${id}`));
+            if(confirm("តើបងប្រាកដថាចង់លុបទិន្នន័យនេះមែនទេ?")) remove(ref(db, `packages/${id}`));
         };
 
-        // Real-time listener
-        onValue(ref(db, 'packages'), (snapshot) => {
-            const data = snapshot.val();
-            const list = data ? Object.keys(data).map(key => ({id: key, ...data[key]})) : [];
-            list.sort((a, b) => b.timestamp - a.timestamp);
-            
+        // បង្ហាញទិន្នន័យ Real-time
+        onValue(ref(db, 'packages'), (snap) => {
+            const data = snap.val();
+            const list = data ? Object.keys(data).map(k => ({id: k, ...data[k]})).sort((a,b)=>b.timestamp-a.timestamp) : [];
             document.getElementById('totalCount').innerText = list.length;
+            
             const tbody = document.getElementById('dataTable');
             tbody.innerHTML = list.map(p => `
                 <tr class="hover:bg-blue-50/50 transition-all">
-                    <td class="px-8 py-4 font-bold text-slate-400 text-xs">${p.date}</td>
-                    <td class="px-8 py-4 font-black text-indigo-900 text-xl">#${p.tracking_id}</td>
-                    <td class="px-8 py-4">
-                        ${p.image ? `<img src="${p.image}" class="w-12 h-12 rounded-xl border-2 border-white shadow-md">` : '-'}
-                    </td>
+                    <td class="px-8 py-4 text-slate-400 font-bold text-xs">${p.date}</td>
+                    <td class="px-8 py-4 font-black text-indigo-900 text-xl italic">#${p.tracking_id}</td>
+                    <td class="px-8 py-4"><img src="${p.image}" class="w-12 h-12 rounded-xl border-2 border-white shadow-sm"></td>
                     <td class="px-8 py-4 text-right">
-                        <button onclick="deleteItem('${p.id}')" class="text-red-400 p-2"><i data-lucide="trash-2"></i></button>
+                        <button onclick="deleteItem('${p.id}')" class="text-red-400 hover:text-red-600 transition-colors">
+                            <i data-lucide="trash-2"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
