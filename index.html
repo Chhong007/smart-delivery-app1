@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Delivery System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Noto Sans Khmer', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 p-5">
+
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
+        <h1 class="text-2xl font-bold text-indigo-600 mb-4">ប្រព័ន្ធគ្រប់គ្រងការដឹកជញ្ជូន</h1>
+        
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">លេខកូដអីវ៉ាន់:</label>
+            <input type="text" id="trackingInput" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="បញ្ចូលលេខកូដទីនេះ...">
+        </div>
+
+        <button onclick="saveData()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+            រក្សាទុកទិន្នន័យ
+        </button>
+
+        <hr class="my-6">
+
+        <h2 class="text-xl font-semibold mb-3">បញ្ជីអីវ៉ាន់ថ្មីៗ</h2>
+        <ul id="list" class="list-disc pl-5 text-gray-600">
+            </ul>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+        // Firebase Config របស់អ្នក
+        const firebaseConfig = {
+            apiKey: "AIzaSyCA8cKGFYNB8M4z-yxeqL3Nl796IeZqMiU",
+            authDomain: "smart-delivery-system-1fc02.firebaseapp.com",
+            projectId: "smart-delivery-system-1fc02",
+            storageBucket: "smart-delivery-system-1fc02.firebasestorage.app",
+            messagingSenderId: "750092212909",
+            appId: "1:750092212909:web:0d2e2cbedaf0ce5a6b4424",
+            measurementId: "G-QBDT32L2ED"
+        };
+
+        // បើកដំណើរការ Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // មុខងាររក្សាទុកទិន្នន័យ
+        window.saveData = function() {
+            const trackId = document.getElementById('trackingInput').value;
+            if (trackId) {
+                push(ref(db, 'deliveries/'), {
+                    tracking_number: trackId,
+                    timestamp: Date.now()
+                }).then(() => {
+                    alert("រក្សាទុកបានជោគជ័យ!");
+                    document.getElementById('trackingInput').value = "";
+                });
+            } else {
+                alert("សូមបញ្ចូលលេខកូដ!");
+            }
+        };
+
+        // មុខងារទាញទិន្នន័យមកបង្ហាញ
+        const listElement = document.getElementById('list');
+        onValue(ref(db, 'deliveries/'), (snapshot) => {
+            listElement.innerHTML = "";
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val();
+                const li = document.createElement('li');
+                li.textContent = "លេខកូដ: " + data.tracking_number;
+                listElement.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>
